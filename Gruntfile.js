@@ -75,7 +75,7 @@
 				},
 				assemble: {
 					files: ['sources/assemble/**/*.hbs', 'component-helpers/assemble/**/*.hbs', 'sources/assemble/data/**/*.json'],
-					tasks: ['assemble']
+					tasks: ['svgmin','assemble']
 				},
 				jshint: {
 					files: ['sources/js/**/*.js', 'tests/**/*.js'],

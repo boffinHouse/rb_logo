@@ -4,15 +4,25 @@ rb-logo
 ----------------------------------------------------------
 
 **********************************************************/
-$logoJSCFG: (
-	watchCSS: false
-);
-
 .rb-logo {
+	width: 100%;
 
+	@at-root {
+		.logo-inner {
+			display: block;
+		}
+		.logo-title {
+			@include rb-hide-text;
+		}
+	}
 
-	@if function-exists(rbToJSON) {
-		@include exportToJS($logoJSCFG);
+	//SVG Styles
+	svg {
+		width: 100%;
+	}
+
+	path {
+		fill: red;
 	}
 }
 

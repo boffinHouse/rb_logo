@@ -4,6 +4,15 @@
 	.page-header-block {
 		align-items: center;
 	}
+
+	.rb-logo {
+		.logo-title {
+			color: #ddd;
+			overflow: visible !important;
+			font: 600  2.3em/2em sans-serif!important;
+
+		}
+	}
 }
 
 .rb-page-main {
@@ -12,11 +21,7 @@
 	padding: 30px 0;
 }
 
-.rb-logo {
-	.logo-title {
-		color: #ddd;
-	}
-}
+
 
 .rb-libchooser {
 	width: 100%;
