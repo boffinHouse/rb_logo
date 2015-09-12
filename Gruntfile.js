@@ -9,6 +9,8 @@
 		grunt.task.loadNpmTasks('grunt-contrib-watch');
 		grunt.task.loadNpmTasks('grunt-contrib-jshint');
 		grunt.task.loadNpmTasks('assemble');
+		grunt.task.loadNpmTasks('grunt-svgmin');
+		grunt.task.loadNpmTasks('grunt-svgstore');
 
 		grunt.initConfig({
 			sass: {
@@ -79,10 +81,14 @@
 					files: ['sources/js/**/*.js', 'tests/**/*.js'],
 					tasks: ['jshint']
 				},
+				svg: {
+					files:['sources/img/**/*.{svg,png}'],
+					tasks: ['svgmin', 'assemble']
+				}
 			},
 			assemble: {
 				options: {
-					data: 'sources/data/**/*.{json,yml}',
+					data: 'sources/assemble/data/**/*.{json,yml}',
 					helpers: ['component-helpers/assemble/helper/*.js'],
 					layoutdir: 'component-helpers/assemble/layouts/',
 					partials: ['sources/assemble/**/*.hbs']
@@ -111,11 +117,90 @@
 					expand: true,
 					src: ['**/*.js']
 				}
+			},
+			svgmin: {
+				options: {
+					plugins: [
+						{ cleanupAttrs: true },
+						{ cleanupEnableBackground: true },
+						{ cleanupIDs: true },
+						{ cleanupListOfValues: true },
+						{ cleanupNumericValues: true },
+						{ collapseGroups: true },
+						{ convertColors: true },
+						{ convertPathData: true },
+						{ convertShapeToPath: true },
+						{ convertStyleToAttrs: true },
+						{ convertTransform: true },
+						{ mergePaths: true },
+						{ moveElemsAttrsToGroup: true },
+						{ moveGroupAttrsToElems: true },
+						{ removeComments: true },
+						{ removeDesc: true },
+						{ removeDoctype: true },
+						{ removeEditorsNSData: true },
+						{ removeEmptyAttrs: true },
+						{ removeEmptyContainers: true },
+						{ removeEmptyText: true },
+						{ removeHiddenElems: true },
+						{ removeMetadata: true },
+						{ removeNonInheritableGroupAttrs: true },
+						{ removeRasterImages: true },
+						{ removeTitle: true },
+						{ removeUnknownsAndDefaults: true },
+						{ removeUnusedNS: true },
+						{ removeUselessDefs: true },
+						{ removeUselessStrokeAndFill: false },
+						{ removeViewBox: false },
+						{ removeXMLProcInst: false },
+						{ sortAttrs: true },
+						{ transformsWithOnePath: false }
+					]
+				},
+				svgLogo: {
+					files: [
+						{
+							cwd: 'sources/img/logo',
+							dest: 'tmp/svgmin/logo',
+							expand: true,
+							ext: '.svg',
+							src: ['*.svg']
+						}
+					]
+				},
+				svgIcons: {
+					files: [
+						{
+							cwd: 'sources/img/icons',
+							dest: 'tmp/svgmin/icons',
+							expand: true,
+							ext: '.svg',
+							src: ['*.svg']
+						}
+					]
+				}
+			},
+			svgstore: {
+				options: {
+					prefix : 'icon-',
+					formatting : {
+						indent_char: '	',
+						indent_size : 1
+					},
+					svg: {
+						style: "display: none;"
+					}
+				},
+				dev: {
+					files: {
+						'dist/img/icons/icon-sprite.svg': ['tmp/svgmin/icons/*.svg']
+					}
+				}
 			}
 		});
 
-		grunt.registerTask( 'css', ['generate-tmp-styles-scss', 'sass', 'autoprefixer', 'clean:tmp']);
-		grunt.registerTask('build', [ 'clean:dist', 'copy:js', 'css', 'assemble']);
+		grunt.registerTask( 'css', ['generate-tmp-styles-scss', 'sass', 'autoprefixer']);
+		grunt.registerTask('build', [ 'clean:dist', 'copy:js', 'svgmin', 'css',  'assemble', 'clean:tmp']);
 		grunt.registerTask('default', ['jshint', 'build', 'watch']);
 
 		grunt.registerTask( 'generate-tmp-styles-scss', 'Generate styles tmp file', function() {
