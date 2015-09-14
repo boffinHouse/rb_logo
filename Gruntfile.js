@@ -158,6 +158,12 @@
 					]
 				},
 				svgLogo: {
+					options: {
+						plugins: [
+							{ removeXMLProcInst: true },
+							{ removeTitle: true },
+						]
+					},
 					files: [
 						{
 							cwd: 'sources/img/logo',
@@ -182,16 +188,18 @@
 			},
 			svgstore: {
 				options: {
-					prefix : 'icon-',
 					formatting : {
 						indent_char: '	',
 						indent_size : 1
-					},
-					svg: {
-						style: "display: none;"
 					}
 				},
-				dev: {
+				svgSprite: {
+					options: {
+						prefix : 'icon-',
+						svg: {
+							style: "display: none;"
+						}
+					},
 					files: {
 						'dist/img/icons/icon-sprite.svg': ['tmp/svgmin/icons/*.svg']
 					}
