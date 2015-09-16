@@ -14,15 +14,11 @@ rb-logo
 		.logo-title {
 			@include rb-hide-text;
 		}
-	}
 
-	//SVG Styles
-	svg {
-		width: 100%;
-	}
-
-	path {
-		fill: red;
+		.logo-symbol {
+			height: 21px;
+			width: 115px;
+		}
 	}
 }
 

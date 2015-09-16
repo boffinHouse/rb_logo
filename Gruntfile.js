@@ -2,6 +2,7 @@
 	'use strict';
 
 	module.exports = function (grunt) {
+		grunt.task.loadNpmTasks('grunt-auto-install');
 		grunt.task.loadNpmTasks('grunt-sass');
 		grunt.task.loadNpmTasks('grunt-contrib-copy');
 		grunt.task.loadNpmTasks('grunt-contrib-clean');
@@ -13,6 +14,13 @@
 		grunt.task.loadNpmTasks('grunt-svgstore');
 
 		grunt.initConfig({
+			auto_install: {
+				subdir: {
+					options: {
+						bower: 'false'
+					}
+				}
+			},
 			sass: {
 				options: {
 					outputStyle: 'nested',
@@ -164,27 +172,10 @@
 							{ removeTitle: true },
 						]
 					},
-					files: [
-						{
-							cwd: 'sources/img/logo',
-							dest: 'tmp/svgmin/logo',
-							expand: true,
-							ext: '.svg',
-							src: ['*.svg']
-						}
-					]
+					files: {
+						'tmp/svgmin/logo.svg': ['sources/img/logo/*.svg']
+					},
 				},
-				svgIcons: {
-					files: [
-						{
-							cwd: 'sources/img/icons',
-							dest: 'tmp/svgmin/icons',
-							expand: true,
-							ext: '.svg',
-							src: ['*.svg']
-						}
-					]
-				}
 			},
 			svgstore: {
 				options: {
@@ -193,22 +184,23 @@
 						indent_size : 1
 					}
 				},
-				svgSprite: {
+				svgLogo: {
 					options: {
-						prefix : 'icon-',
+						prefix : 'page-',
 						svg: {
 							style: "display: none;"
 						}
 					},
 					files: {
-						'dist/img/icons/icon-sprite.svg': ['tmp/svgmin/icons/*.svg']
+						'dist/img/logo.svg': ['tmp/svgmin/logo.svg']
 					}
 				}
 			}
 		});
 
 		grunt.registerTask( 'css', ['generate-tmp-styles-scss', 'sass', 'autoprefixer']);
-		grunt.registerTask('build', [ 'clean:dist', 'copy:js', 'svgmin', 'css',  'assemble', 'clean:tmp']);
+		grunt.registerTask( 'svg', ['svgmin', 'svgstore']);
+		grunt.registerTask('build', [ 'auto_install', 'clean:dist', 'copy:js', 'svg', 'css',  'assemble', 'clean:tmp']);
 		grunt.registerTask('default', ['jshint', 'build', 'watch']);
 
 		grunt.registerTask( 'generate-tmp-styles-scss', 'Generate styles tmp file', function() {

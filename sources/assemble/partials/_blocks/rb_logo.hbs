@@ -5,7 +5,11 @@ component: rb_logo
 <div class="rb-logo">
 	<a class="logo-inner" title="Startpage" href="{{ link }}">
 		<span class="logo-title">{{ title }}</span>
-		{{glob 'tmp/svgmin/logo/*.svg'  }}
+		<svg class="logo-symbol">
+			<use xlink:href="#page-logo"></use>
+		</svg>
 	</a>
 </div>
 
+<!--Add svg to top body element-->
+{{glob '*/img/logo.svg' }}
