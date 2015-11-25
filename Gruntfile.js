@@ -72,21 +72,21 @@
 				},
 				js: {
 					files: {
-						src: ['sources/js/**/*.js', 'tests/**/*.js']
+						src: ['sources/components/**/*.js', 'tests/**/*.js']
 					}
 				}
 			},
 			watch: {
 				scss: {
-					files: ['sources/sass/**/*.scss'],
+					files: ['sources/components/**/*.scss', 'component-helpers/sass/**/*.scss'],
 					tasks: ['build']
 				},
 				assemble: {
-					files: ['sources/assemble/**/*.hbs', 'component-helpers/assemble/**/*.hbs', 'sources/assemble/data/**/*.json'],
+					files: ['sources/components/**/*.{json,hbs}', 'component-helpers/assemble/**/*.hbs'],
 					tasks: ['svgmin','assemble']
 				},
 				jshint: {
-					files: ['sources/js/**/*.js', 'tests/**/*.js'],
+					files: ['sources/components/**/*.js', 'tests/**/*.js'],
 					tasks: ['jshint']
 				},
 				svg: {
@@ -96,10 +96,10 @@
 			},
 			assemble: {
 				options: {
-					data: 'sources/assemble/data/**/*.{json,yml}',
+					data: 'sources/components/**/*.{json,yml}',
 					helpers: ['component-helpers/assemble/helper/*.js'],
 					layoutdir: 'component-helpers/assemble/layouts/',
-					partials: ['sources/assemble/**/*.hbs']
+					partials: ['sources/components/**/*.hbs']
 				},
 				dev: {
 					options: {
@@ -111,8 +111,7 @@
 							expand: true,
 							flatten: true,
 							src: [
-								'component-helpers/assemble/pages/**/*.hbs',
-								'sources/assemble/pages/**/*.hbs'
+								'component-helpers/assemble/pages/**/*.hbs'
 							]
 						}
 					]
